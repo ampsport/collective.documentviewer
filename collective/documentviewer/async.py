@@ -203,10 +203,11 @@ class CeleryJobRunner(object):
             return -1
 
     def find_job(self):
-        result = AsyncResult(self.settings.celery_task_id)
-        if self.is_current_active(result):
-            return 0, result
-
+        task_id = self.settings.celery_task_id
+        if task_id is not None:
+            result = AsyncResult(task_id)
+            if self.is_current_active(result):
+                return 0, result
         return -1, None
 
     def queue_it(self):
