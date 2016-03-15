@@ -127,7 +127,7 @@ class DexterityItem(BaseItem):
     @property
     def file_type(self):
         if self.file:
-            return self.file.contentType
+            return self.file.contentType or None
 
     @property
     def blob(self):
