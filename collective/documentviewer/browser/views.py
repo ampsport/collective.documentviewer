@@ -41,6 +41,28 @@ def either(one, two):
     return one
 
 
+MSG_DOCSPLIT_NOT_INSTALLED = _("Since you do not have docsplit installed on "
+                               "this system, we can not render the pages of "
+                               "this document.")
+MSG_NEW_CONVERSION = _("A new conversion to the Document Viewer "
+                       "is currently being generated for this document."
+                       )
+MSG_CONVERTING = _("The document is currently being converted to the "
+                   "Document Viewer view.")
+
+MSG_ERROR_CONVERTING = _("There was an error trying to convert the document. "
+                         "Maybe the document is encrypted, corrupt or "
+                         "malformed? Check log for details.")
+
+MSG_NOT_YET_CONVERTED = _("This document is not yet converted to document "
+                          "viewer. Please click the `Document Viewer Convert` "
+                          "button in the actions menu to convert.")
+
+MSG_NOT_SUPPORTED_TYPE = _("The file is not a supported document type. "
+                           "Your type may be supported. Check out the document "
+                           "viewer configuration settings.")
+
+
 class DocumentViewerView(BrowserView):
 
     installed = docsplit is not None
@@ -71,38 +93,28 @@ class DocumentViewerView(BrowserView):
         if allowedDocumentType(self.context,
                                self.global_settings.auto_layout_file_types):
             if not self.installed:
-                msg = _("Since you do not have docsplit installed on this "
-                        "system, we can not render the pages of this document.")
+                msg = MSG_DOCSPLIT_NOT_INSTALLED
 
             if self.settings.converting is not None and \
                     self.settings.converting:
                 if self.settings.successfully_converted:
                     # there is a version that is already converted, show it.
                     self.enabled = True
-                    msg = _("A new conversion to the Document Viewer "
-                            "is currently being generated for this document."
-                            )
+                    msg = MSG_NEW_CONVERSION
                 else:
-                    msg = _("The document is currently being converted to the "
-                            "Document Viewer view.")
+                    msg = MSG_CONVERTING
                     self.enabled = False
             elif self.settings.successfully_converted is not None and \
                     not self.settings.successfully_converted:
-                msg = _("There was an error trying to convert the document. "
-                        "Maybe the document is encrypted, corrupt or "
-                        "malformed? Check log for details.")
+                msg = MSG_ERROR_CONVERTING
                 self.enabled = False
             elif self.settings.successfully_converted is None:
                 # must have just switched to this view
-                msg = _("This document is not yet converted to document "
-                        "viewer. Please click the `Document Viewer Convert` "
-                        "button in the actions menu to convert.")
+                msg = MSG_NOT_YET_CONVERTED
                 self.enabled = False
         else:
             self.enabled = False
-            msg = _("The file is not a supported document type. "
-                    "Your type may be supported. Check out the document "
-                    "viewer configuration settings.")
+            msg = MSG_NOT_SUPPORTED_TYPE
         mtool = getToolByName(self.context, 'portal_membership')
         self.can_modify = mtool.checkPermission('Modify portal content',
                                                 self.context)
