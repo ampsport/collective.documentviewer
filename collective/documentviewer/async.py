@@ -233,8 +233,8 @@ def asyncQueueJob(obj):
         else:
             runner.queue_it()
         return
-    except:
-        raise QueueException
+    except Exception, ex:
+        raise QueueException(ex)
 
 
 def celeryQueueJob(obj):
@@ -246,8 +246,8 @@ def celeryQueueJob(obj):
         else:
             runner.queue_it()
         return
-    except:
-        raise QueueException
+    except Exception, ex:
+        raise QueueException(ex)
 
 
 def queueJob(obj):
@@ -261,8 +261,9 @@ def queueJob(obj):
             celeryQueueJob(obj)
         else:
             converter()
-    except QueueException:
+    except QueueException, ex:
         logger.exception(
             "Error using async with "
-            "collective.documentviewer. Converting pdf without async...")
+            "collective.documentviewer. Converting pdf without async..."
+            "Message was %s" % ex)
         converter()
