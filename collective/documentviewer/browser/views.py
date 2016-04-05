@@ -44,9 +44,10 @@ def either(one, two):
 MSG_DOCSPLIT_NOT_INSTALLED = _("Since you do not have docsplit installed on "
                                "this system, we can not render the pages of "
                                "this document.")
+
 MSG_NEW_CONVERSION = _("A new conversion to the Document Viewer "
-                       "is currently being generated for this document."
-                       )
+                       "is currently being generated for this document.")
+
 MSG_CONVERTING = _("The document is currently being converted to the "
                    "Document Viewer view.")
 
