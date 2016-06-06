@@ -69,7 +69,7 @@ class DocumentViewerView(BrowserView):
     installed = docsplit is not None
     enabled = True
 
-    def __call__(self):
+    def update(self):
         self.site = getPortal(self.context)
         self.settings = Settings(self.context)
         self.global_settings = GlobalSettings(self.site)
@@ -121,8 +121,6 @@ class DocumentViewerView(BrowserView):
                                                 self.context)
         if msg and self.can_modify:
             utils.addPortalMessage(_(msg))
-
-        return self.index()
 
     def annotations(self):
         data = []
