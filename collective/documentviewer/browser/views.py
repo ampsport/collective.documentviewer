@@ -216,7 +216,6 @@ class DocumentViewerView(BrowserView):
                 width = '"100%"'
         else:
             width = str(width)
-
         sidebar = either(self.settings.show_sidebar,
                          self.global_settings.show_sidebar)
         search = either(self.settings.show_search,
@@ -225,7 +224,7 @@ class DocumentViewerView(BrowserView):
 window.documentData = %(data)s;
 var hash = window.location.hash;
 window.initializeDV = function(){
-var sidebar = %(search)s;
+var sidebar = %(sidebar)s;
 if(jQuery(window).width() < 800){
     sidebar = false;
 }
